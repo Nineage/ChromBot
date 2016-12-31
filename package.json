@@ -1,0 +1,24 @@
+{
+  "name": "chrombot",
+  "version": "1.0.0",
+  "description": "A chat bot for discord!",
+  "main": "app.js",
+  "dependencies": {
+    "discord.js": "^10.0.1",
+    "fs": "0.0.1-security",
+    "node-opus": "^0.2.4",
+    "opusscript": "0.0.1",
+    "querystring": "^0.2.0",
+    "request": "^2.79.0",
+    "urban": "^0.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "bot"
+  ],
+  "author": "",
+  "license": "MIT"
+}
