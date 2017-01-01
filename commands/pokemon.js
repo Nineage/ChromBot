@@ -28,20 +28,9 @@ function dataSearch(args) {
 
 function findData(args) {
 	let result;
-	if (pokemon[args]) {result = pokemon[args];}
-	else if (moves[args]) {result = moves[args];}
-	else {return false;}
-    /*if (Tools.Dex.getSpecies(toId(args))) {
-    	result = pokemon[args];
-    } else if (Tools.Dex.getMove(toId(args))) {
-    	result = moves[args];
-    } else if(Tools.Dex.getAbility(toId(args))) {
-    	result = abilities[args];
-    } else if(Tools.Dex.getItem(toId(args))) {
-    	result = items[args];
-    } else {
-    	return false;
-    }*/
+	if (pokemon[args]) result = pokemon[args];
+	else if (moves[args]) result = moves[args];
+	else return false;
     return result;
 }
 
@@ -1008,6 +997,7 @@ exports.commands = {
         let result = dataSearch(args);
         this.sendReply(result);
     },
+    dexsearchhelp: ".dexsearch [parameters] - Searches for Pokemon matching the given parameters.",
     
     dt: 'data',
     data: function(args) {
@@ -1016,22 +1006,25 @@ exports.commands = {
     	let search = toId(args);
 		let data = findData(search);
 		if (!data) return this.sendReply(args + ' could not be found in any category.');
-		let result = ""
+		let result = "";
 		if (data.species) {//Pokemon
-			result += "http://play.pokemonshowdown.com/sprites/bw/" + data.species.toLowerCase() + ".png\n";
-			result += "**" + data.species + "**\nType: ``" + data.types.join(" / ") + "``\nAbilities: ``";
-			result += Object.values(data.abilities).join(" / ") + "``\nStats: ``";
+			result += "```\n" + data.species + "\nType: " + data.types.join(" / ") + "\nAbilities: ";
+			result += Object.values(data.abilities).join(" / ") + "\nStats: ";
 			let stats = [];
 			for (let k in data.baseStats) {
 				stats.push(data.baseStats[k] + " " + 
 					{"hp": "HP", "atk": "Atk", "def": "Def", "spa": "SpA", "spd": "SpD", "spe": "Spe"}[k]);
 			}
-			result += stats.join(" / ") + "``";
-			return this.sendReply(result);
+			result += stats.join(" / ") + "\n```\nhttp://smogon.com/dex/xy/pokemon/" + data.species.toLowerCase();
+			this.channel.sendFile("http://play.pokemonshowdown.com/sprites/bw/" + data.species.toLowerCase() + ".png", null, result);
 		} else if (data.basePower) { //Move
-			result += "**" + data.name + "**\n\nType: ``" + data.type + "``\n";
-			result += "Power: ``" + data.basePower + "``  Accuracy: ``" + data.accuracy + "%``\n";
-			return this.sendReply(result);
+			result += "```\n" + data.name + "\n\nType: " + data.type + "\n";
+			result += "Power: " + data.basePower + "  Accuracy: " + data.accuracy + "%\n";
+			result += data.desc + "```";
+		} else if (data.rating) { //Ability
+			result += "**" + data.name + "**\n";
+			result += "*More Data Pending*";
 		}
+		if (!data.species) return this.sendReply(result);
     },
 };
