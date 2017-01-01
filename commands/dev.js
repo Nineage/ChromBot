@@ -35,14 +35,14 @@ exports.commands = {
     hotpatchhelp: ".hotpatch - Reload commands. Requires excepted status.",
     
     nick: function(args) {
-        if (!this.can('admin')) this.deny();
+        if (!this.can('admin')) return this.deny();
         setNick(args);
         return this.sendReply("Changed nickname to " + args + "!");
     },
     nickhelp: ".nick [name] - Causes me to change my nickname on this server.",
     
     status: function(args) {
-        if (!this.can('admin')) this.deny();
+        if (!this.can('admin')) return this.deny();
         let suffix;
         if (args === 'idle') {
             suffix = 'idle';
