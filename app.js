@@ -6,7 +6,6 @@
  
 const Discord = require("discord.js");
 const fs = require('fs');
-global.Tools = require('./tools.js');
 
 // First check if our config file exists
 if (!fs.existsSync('./config.js')) {
