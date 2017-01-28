@@ -7,6 +7,10 @@ global.commands = {};
 const bot = require('./app.js').bot;
 const fs = require('fs');
 
+const allPerms = [//Guilds where all users can use all commands
+    "222569880023597056"
+];
+
 let perms = exports.perms = require('./perms.json');
 if (!perms.broadcast || !perms.mod || !perms.admin) {
     console.log('Warning: perms.json is not valid. Please check your file.');
@@ -51,6 +55,7 @@ class Context {
     can (perm) {
         if (Config.exceptions && ~Config.exceptions.indexOf(this.userid)) return true;
         if (this.channel.type === "dm" && perm === "broadcast") return true; //sure
+        if (~allPerms.indexOf(this.chanId)) return true;
         if (!this.roles) return false; //todo: fix for pm
         let roles = perms[perm];
         if (!roles) return false;
