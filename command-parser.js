@@ -55,7 +55,7 @@ class Context {
     can (perm) {
         if (Config.exceptions && ~Config.exceptions.indexOf(this.userid)) return true;
         if (this.channel.type === "dm" && perm === "broadcast") return true; //sure
-        if (~allPerms.indexOf(this.chanId)) return true;
+        if (~allPerms.indexOf(this.chanId) && perm !== "eval") return true;
         if (!this.roles) return false; //todo: fix for pm
         let roles = perms[perm];
         if (!roles) return false;
